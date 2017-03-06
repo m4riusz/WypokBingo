@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 /**
  * Created by mariusz on 06.03.17.
  */
-@Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Pattern(regexp = "^[a-zA-z0-9_]{4,20}$", message = "Wrong username format!")
-public @interface Username {
+@Target(value = ElementType.FIELD)
+@Pattern(regexp = "^[a-zA-z0-9_!@#$%^&*()]{4,20}$", message = "Wrong password format!")
+public @interface Password {
 }
