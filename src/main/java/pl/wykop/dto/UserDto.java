@@ -2,7 +2,6 @@ package pl.wykop.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -12,8 +11,8 @@ import java.util.List;
 @Data
 public class UserDto {
     private Long id;
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
+    private String createDate;
+    private String modifyDate;
     private String username;
     private String email;
     private List<String> roles;
