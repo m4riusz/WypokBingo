@@ -3,11 +3,17 @@ package pl.wykop.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.wykop.domain.User;
 import pl.wykop.service.UserService;
 
 import static org.springframework.http.HttpMethod.POST;
@@ -16,10 +22,13 @@ import static org.springframework.http.HttpMethod.POST;
  * Created by mariusz on 06.03.17.
  */
 @Configuration
+@EnableRedisRepositories
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
+    @Autowired
+    private AuthenticationFilter authenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(POST, "/user").permitAll()
-                .anyRequest().authenticated();
+                .and()
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
