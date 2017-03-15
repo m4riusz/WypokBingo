@@ -1,9 +1,9 @@
 package pl.wykop.dto;
 
 import lombok.Data;
-import pl.wykop.domain.Email;
-import pl.wykop.domain.Password;
-import pl.wykop.domain.Username;
+import pl.wykop.domain.annotations.Email;
+import pl.wykop.domain.annotations.Password;
+import pl.wykop.domain.annotations.Username;
 
 /**
  * Created by mariusz on 06.03.17.

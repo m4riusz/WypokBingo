@@ -1,4 +1,4 @@
-package pl.wykop.domain;
+package pl.wykop.domain.annotations;
 
 import javax.validation.constraints.Pattern;
 import java.lang.annotation.ElementType;

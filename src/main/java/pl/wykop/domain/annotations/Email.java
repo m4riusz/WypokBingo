@@ -1,6 +1,5 @@
-package pl.wykop.domain;
+package pl.wykop.domain.annotations;
 
-import javax.validation.constraints.Pattern;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
-@Pattern(regexp = "^[a-zA-z0-9_!@#$%^&*()]{4,20}$", message = "Wrong password format!")
-public @interface Password {
+@org.hibernate.validator.constraints.Email(message = "Wrong email format!")
+public @interface Email {
 }
