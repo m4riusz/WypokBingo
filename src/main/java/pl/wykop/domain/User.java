@@ -1,6 +1,5 @@
 package pl.wykop.domain;
 
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,6 @@ import java.util.List;
  * Created by mariusz on 06.03.17.
  */
 @Data
-@Builder
 @Entity(name = "users")
 public class User extends AbstractEntity implements UserDetails {
     @Username
