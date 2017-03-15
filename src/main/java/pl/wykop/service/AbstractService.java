@@ -1,9 +1,8 @@
 package pl.wykop.service;
 
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -11,11 +10,10 @@ import java.util.Objects;
 /**
  * Created by mariusz on 15.03.17.
  */
-@Data
-@Service
-public abstract class AbstractService {
 
-    private final MessageSource messageSource;
+public abstract class AbstractService {
+    @Autowired
+    private MessageSource messageSource;
 
     public String getMessage(String code) {
         return getMessage(code, new Objects[0]);

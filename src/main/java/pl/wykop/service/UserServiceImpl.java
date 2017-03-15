@@ -1,5 +1,6 @@
 package pl.wykop.service;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
