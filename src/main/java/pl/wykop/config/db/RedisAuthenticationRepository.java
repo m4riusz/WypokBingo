@@ -41,8 +41,11 @@ public class RedisAuthenticationRepository implements AuthenticationRepository {
     }
 
     @Override
-    public void logout() {
-
+    public void logout(String token) {
+        ValueOperations<String, User> stringUserValueOperations = redisTemplate.opsForValue();
+        if (token != null) {
+            stringUserValueOperations.getOperations().delete(token);
+        }
     }
 
     private boolean tokenBelongsToValidUser(User principal, User userWithGeneratedToken) {

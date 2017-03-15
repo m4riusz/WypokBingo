@@ -11,5 +11,5 @@ public interface AuthenticationRepository {
 
     String login(Authentication authentication);
 
-    void logout();
+    void logout(String token);
 }
