@@ -16,12 +16,14 @@ import java.io.IOException;
 public class JsonAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final String APPLICATION_JSON = "application/json";
+    private static final String SUCCESS_MESSAGE = "Authentication success!";
     private final ObjectMapper objectMapper;
 
     @Override
     public void handle(HttpServletResponse res, String token) throws IOException {
         AuthenticationResult authenticationResult = new AuthenticationResult();
         authenticationResult.setToken(token);
+        authenticationResult.setMessage(SUCCESS_MESSAGE);
         authenticationResult.setSuccess(true);
         String jsonBody = objectMapper.writeValueAsString(authenticationResult);
         res.getWriter().write(jsonBody);
