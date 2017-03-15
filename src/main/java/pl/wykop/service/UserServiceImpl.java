@@ -1,6 +1,6 @@
 package pl.wykop.service;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import javax.transaction.Transactional;
 /**
  * Created by mariusz on 06.03.17.
  */
+@Data
 @Service
 @Transactional
-@AllArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto create(UserCreateForm userCreateForm) throws UserCreateException {
         if (userRepository.findByUsername(userCreateForm.getUsername()).isPresent()) {
-            throw new UserCreateException("User with this username already exists!");
+            throw new UserCreateException(getMessage("user.create.error.username"));
         } else if (userRepository.findByEmail(userCreateForm.getEmail()).isPresent()) {
-            throw new UserCreateException("User with this email already exists!");
+            throw new UserCreateException(getMessage("user.create.error.email"));
         }
         User user = new User();
         user.setUsername(userCreateForm.getUsername());

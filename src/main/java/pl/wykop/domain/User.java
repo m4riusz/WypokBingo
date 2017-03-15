@@ -3,6 +3,8 @@ package pl.wykop.domain;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.wykop.domain.annotations.Email;
+import pl.wykop.domain.annotations.Username;
 
 import javax.persistence.*;
 import java.util.ArrayList;
