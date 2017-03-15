@@ -28,10 +28,9 @@ import java.io.IOException;
  */
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
-    public static final String LOGIN_URL = "/api/login";
-    public static final String LOGOUT_URL = "/api/logout";
     public static final String TOKEN_HEADER = "Auth-Token";
     private static final String POST = "POST";
+    private static final String DELETE = "DELETE";
     private Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     @Lazy
@@ -64,20 +63,25 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
             return;
         } else if (isLogoutRequest(req)) {
-            logger.debug("Authentication logout request!");
+            String token = getTokenHeaderValue(req);
+            logger.debug("Authentication logout request! Token: " + token);
+            authenticationRepository.logout(token);
+            return;
         }
         logger.debug("No authentication request.");
         filterChain.doFilter(req, res);
-
     }
 
     private boolean isLogoutRequest(HttpServletRequest req) {
-        return req.getRequestURI().equals(LOGOUT_URL) && req.getMethod().equalsIgnoreCase(POST);
+        return req.getRequestURI().equals(Route.AUTH_URL) && req.getMethod().equalsIgnoreCase(DELETE);
     }
 
 
     private boolean isLoginRequest(HttpServletRequest req) {
-        return req.getRequestURI().equals(LOGIN_URL) && req.getMethod().equalsIgnoreCase(POST);
+        return req.getRequestURI().equals(Route.AUTH_URL) && req.getMethod().equalsIgnoreCase(POST);
     }
 
+    private String getTokenHeaderValue(HttpServletRequest req) {
+        return req.getHeader(TOKEN_HEADER);
+    }
 }

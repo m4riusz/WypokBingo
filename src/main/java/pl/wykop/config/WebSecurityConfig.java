@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.wykop.service.UserService;
 
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.POST;
 
 /**
@@ -40,8 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(POST, "/user").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers(POST, Route.AUTH_URL).permitAll()
+                .antMatchers(DELETE, Route.AUTH_URL).permitAll()
+                .antMatchers(POST,Route.USER).permitAll()
+                .antMatchers(Route.AUTHENTICATED_PATTERN).authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
