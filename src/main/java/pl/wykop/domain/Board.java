@@ -17,16 +17,18 @@ import java.util.List;
 public class Board extends AbstractEntity {
 
     @NotBlank
-    @Length(min = 1,max = 255)
+    @Length(min = 1, max = 255)
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bingo_image_id")
     private BingoImage bingoImage;
 
     @ManyToOne
     private User owner;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "board")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "board_id")
     private List<Cell> cells;
 
 }

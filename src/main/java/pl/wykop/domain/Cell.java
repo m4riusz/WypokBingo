@@ -16,12 +16,12 @@ public class Cell extends AbstractEntity {
 
     @ManyToOne
     private Category category;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cell")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Link confirmLink;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cells")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cell_id")
     private Set<Link> requestedLinks;
 
-    @ManyToOne
-    private Board board;
+
 }

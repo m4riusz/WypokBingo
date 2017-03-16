@@ -6,9 +6,6 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import java.util.List;
 
 /**
  * Created by mariusz on 09.03.17.
@@ -18,13 +15,8 @@ import java.util.List;
 @Entity
 public class Link extends AbstractEntity {
 
-    @Column(unique = true)
+    @Column(updatable = false, nullable = false)
     @URL(protocol = "http", host = "wykop", port = 80, message = "Invalid url!")
     private String url;
 
-    @OneToOne
-    private Cell cell;
-
-    @ManyToMany
-    private List<Cell> cells;
 }

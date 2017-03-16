@@ -23,6 +23,4 @@ public class BingoImage extends AbstractEntity {
     @Lob
     private byte[] bytes;
 
-    @OneToMany(mappedBy = "bingoImage")
-    private List<Board> boards;
 }
