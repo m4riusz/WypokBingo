@@ -48,6 +48,12 @@ public class RedisAuthenticationRepository implements AuthenticationRepository {
         }
     }
 
+    @Override
+    public User getUser(String token) {
+        ValueOperations<String, User> stringUserValueOperations = redisTemplate.opsForValue();
+        return stringUserValueOperations.get(token);
+    }
+
     private boolean tokenBelongsToValidUser(User principal, User userWithGeneratedToken) {
         return userWithGeneratedToken.equals(principal);
     }

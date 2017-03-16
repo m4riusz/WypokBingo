@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.wykop.config.authentication.AuthenticationRequest;
@@ -16,6 +17,7 @@ import pl.wykop.config.db.AuthenticationRepository;
 import pl.wykop.config.util.AuthenticationCredentialsProvider;
 import pl.wykop.config.util.AuthenticationFailureHandler;
 import pl.wykop.config.util.AuthenticationSuccessHandler;
+import pl.wykop.domain.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -48,28 +50,50 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
         if (isLoginRequest(req)) {
-            logger.debug("Authentication login request!");
-            AuthenticationRequest credentials = authenticationCredentialsProvider.getCredentials(req);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
-            try {
-                Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                String token = authenticationRepository.login(authentication);
-                authenticationSuccessHandler.handle(res, token);
-                logger.debug("Authentication login success! Logged as " + authentication.getName());
-            } catch (AuthenticationException ex) {
-                logger.debug("Authentication login failure!", ex);
-                authenticationFailureHandler.handle(res, ex);
-            }
+            proceedLoginRequest(req, res);
             return;
         } else if (isLogoutRequest(req)) {
-            String token = getTokenHeaderValue(req);
-            logger.debug("Authentication logout request! Token: " + token);
-            authenticationRepository.logout(token);
+            proceedLogoutRequest(req, res);
+            return;
+        } else {
+            proceedNormalRequest(req, res);
+        }
+        filterChain.doFilter(req, res);
+    }
+
+    private void proceedNormalRequest(HttpServletRequest req, HttpServletResponse res) {
+        String token = getTokenHeaderValue(req);
+        if (token == null) {
             return;
         }
-        logger.debug("No authentication request.");
-        filterChain.doFilter(req, res);
+        User user = authenticationRepository.getUser(token);
+        if (user != null) {
+            Authentication authentication = new PreAuthenticatedAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+    }
+
+    private void proceedLogoutRequest(HttpServletRequest req, HttpServletResponse res) {
+        String token = getTokenHeaderValue(req);
+        logger.debug("Authentication logout request! Token: " + token);
+        authenticationRepository.logout(token);
+        SecurityContextHolder.clearContext();
+    }
+
+    private void proceedLoginRequest(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        logger.debug("Authentication login request!");
+        AuthenticationRequest credentials = authenticationCredentialsProvider.getCredentials(req);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
+        try {
+            Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = authenticationRepository.login(authentication);
+            authenticationSuccessHandler.handle(res, token);
+            logger.debug("Authentication login success! Logged as " + authentication.getName());
+        } catch (AuthenticationException ex) {
+            logger.debug("Authentication login failure!", ex);
+            authenticationFailureHandler.handle(res, ex);
+        }
     }
 
     private boolean isLogoutRequest(HttpServletRequest req) {
