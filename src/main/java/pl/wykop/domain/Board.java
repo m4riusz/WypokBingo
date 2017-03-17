@@ -3,7 +3,7 @@ package pl.wykop.domain;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import pl.wykop.domain.annotations.BoardName;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,9 +16,11 @@ import java.util.List;
 @Entity
 public class Board extends AbstractEntity {
 
-    @NotBlank
-    @Length(min = 1, max = 255)
+    @BoardName
     private String name;
+
+    @Length(max = 255)
+    private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bingo_image_id")

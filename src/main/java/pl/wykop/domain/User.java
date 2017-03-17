@@ -7,6 +7,7 @@ import pl.wykop.domain.annotations.Email;
 import pl.wykop.domain.annotations.Username;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class User extends AbstractEntity implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
+    @Size(max = 10)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
     private List<Board> boards;
 }
