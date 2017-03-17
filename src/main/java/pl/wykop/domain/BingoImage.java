@@ -17,8 +17,8 @@ import java.util.List;
 @Entity
 public class BingoImage extends AbstractEntity {
 
-    @Length(min = 1, max = 255, message = "Wrong filename length!")
-    private String filename;
+    @Length(min = 1, max = 255)
+    private String fileName;
 
     @Lob
     private byte[] bytes;
