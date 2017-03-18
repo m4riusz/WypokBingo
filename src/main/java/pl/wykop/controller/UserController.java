@@ -9,6 +9,7 @@ import pl.wykop.dto.UserCreateForm;
 import pl.wykop.dto.UserDto;
 import pl.wykop.exception.UserCreateException;
 import pl.wykop.exception.UserNotFoundException;
+import pl.wykop.mapper.UserMapper;
 import pl.wykop.service.UserService;
 
 import java.util.Optional;
@@ -30,12 +31,12 @@ public class UserController {
 
     @RequestMapping(value = USER, method = POST)
     public UserDto createUser(@RequestBody UserCreateForm userCreateForm) throws UserCreateException {
-        return userService.create(userCreateForm);
+        return UserMapper.INSTANCE.userToUserDto(userService.create(userCreateForm));
     }
 
     @RequestMapping(value = {USER, USER_BY_USERNAME}, method = GET)
     public UserDto getCurrentLoggedUser(@PathVariable Optional<String> username) throws UserNotFoundException {
-        return username.isPresent() ? userService.findByUsername(username.get()) : userService.getCurrentUser();
+        return UserMapper.INSTANCE.userToUserDto(username.isPresent() ? userService.findByUsername(username.get()) : userService.getCurrentUser());
     }
 
 
