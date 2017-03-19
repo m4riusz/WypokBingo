@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 @Entity(name = "users")
 public class User extends AbstractEntity implements UserDetails {
+
     @Username
     @Column(unique = true)
     private String username;
@@ -35,4 +36,6 @@ public class User extends AbstractEntity implements UserDetails {
     @Size(max = 10)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
     private List<Board> boards;
+
+
 }

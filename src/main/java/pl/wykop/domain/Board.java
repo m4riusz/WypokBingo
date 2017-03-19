@@ -1,7 +1,9 @@
 package pl.wykop.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import pl.wykop.domain.annotations.BoardName;
 
@@ -14,6 +16,11 @@ import java.util.List;
 @Data
 @Builder
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "owner_id"})
+})
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board extends AbstractEntity {
 
     @BoardName
