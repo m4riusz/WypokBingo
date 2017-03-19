@@ -12,6 +12,7 @@ import pl.wykop.exception.UserNotFoundException;
 import pl.wykop.mapper.UserMapper;
 import pl.wykop.service.UserService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -31,7 +32,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @RequestMapping(value = USER, method = POST)
-    public UserDto createUser(@RequestBody UserCreateForm userCreateForm) throws UserCreateException {
+    public UserDto createUser(@Valid @RequestBody UserCreateForm userCreateForm) throws UserCreateException {
         return userMapper.userToUserDto(userService.create(userCreateForm));
     }
 

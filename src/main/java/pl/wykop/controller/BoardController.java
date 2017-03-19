@@ -12,6 +12,8 @@ import pl.wykop.exception.BoardCreateException;
 import pl.wykop.mapper.BoardMapper;
 import pl.wykop.service.BoardService;
 
+import javax.validation.Valid;
+
 /**
  * Created by mariusz on 18.03.17.
  */
@@ -23,7 +25,7 @@ public class BoardController {
     private final BoardMapper boardMapper;
 
     @RequestMapping(value = Route.BOARD, method = RequestMethod.POST)
-    public BoardDto createBoard(@RequestBody BoardCreateForm boardCreateForm) throws BoardCreateException {
+    public BoardDto createBoard(@Valid @RequestBody BoardCreateForm boardCreateForm) throws BoardCreateException {
         return boardMapper.boardToBoardDto(boardService.createBoard(boardCreateForm));
 
     }
