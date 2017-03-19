@@ -1,6 +1,8 @@
 package pl.wykop.mapper;
 
 import org.mapstruct.Mapper;
+import pl.wykop.domain.Authority;
+import pl.wykop.domain.Category;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,5 +16,13 @@ public interface BaseMapper {
 
     default String localDateTimeToString(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+    }
+
+    default String authorityToString(Authority authority) {
+        return authority.getAuthority();
+    }
+
+    default String categoryToString(Category category) {
+        return category.getName();
     }
 }

@@ -20,4 +20,5 @@ public interface BoardMapper {
     @Mapping(source = "bingoImage", target = "image")
     @Mapping(source = "cells", target = "cells")
     BoardDto boardToBoardDto(Board board);
+
 }
