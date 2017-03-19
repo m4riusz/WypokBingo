@@ -1,5 +1,9 @@
 package pl.wykop.domain.annotations;
 
+import pl.wykop.domain.annotations.validators.EmailValidator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -10,6 +14,12 @@ import java.lang.annotation.Target;
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
-@org.hibernate.validator.constraints.Email(message = "Wrong email format!")
+@Constraint(validatedBy = EmailValidator.class)
 public @interface Email {
+
+    String message() default "Invalid email format";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

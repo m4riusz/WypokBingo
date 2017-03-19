@@ -1,6 +1,9 @@
 package pl.wykop.domain.annotations;
 
-import javax.validation.constraints.Pattern;
+import pl.wykop.domain.annotations.validators.BoardNameValidatorAbstract;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +14,12 @@ import java.lang.annotation.Target;
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
-@Pattern(regexp = "^[a-zA-Z0-9_-]{3,120}$")
+@Constraint(validatedBy = BoardNameValidatorAbstract.class)
 public @interface BoardName {
+
+    String message() default "Invalid board name format";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

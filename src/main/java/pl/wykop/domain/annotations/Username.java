@@ -1,6 +1,9 @@
 package pl.wykop.domain.annotations;
 
-import javax.validation.constraints.Pattern;
+import pl.wykop.domain.annotations.validators.UsernameValidator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +14,13 @@ import java.lang.annotation.Target;
  */
 @Target(value = ElementType.FIELD)
 @Retention(value = RetentionPolicy.RUNTIME)
-@Pattern(regexp = "^[a-zA-z0-9_]{4,20}$", message = "Wrong username format!")
+@Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
+
+    String message() default "Invalid username format";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
 }
