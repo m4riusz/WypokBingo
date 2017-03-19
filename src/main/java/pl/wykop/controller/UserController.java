@@ -28,15 +28,16 @@ import static pl.wykop.config.Route.USER_BY_USERNAME;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @RequestMapping(value = USER, method = POST)
     public UserDto createUser(@RequestBody UserCreateForm userCreateForm) throws UserCreateException {
-        return UserMapper.INSTANCE.userToUserDto(userService.create(userCreateForm));
+        return userMapper.userToUserDto(userService.create(userCreateForm));
     }
 
     @RequestMapping(value = {USER, USER_BY_USERNAME}, method = GET)
     public UserDto getCurrentLoggedUser(@PathVariable Optional<String> username) throws UserNotFoundException {
-        return UserMapper.INSTANCE.userToUserDto(username.isPresent() ? userService.findByUsername(username.get()) : userService.getCurrentUser());
+        return userMapper.userToUserDto(username.isPresent() ? userService.findByUsername(username.get()) : userService.getCurrentUser());
     }
 
 
