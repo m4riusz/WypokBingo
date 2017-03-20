@@ -2,6 +2,7 @@ package pl.wykop.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import pl.wykop.domain.annotations.BoardDimension;
 import pl.wykop.domain.annotations.BoardName;
 
 /**
@@ -15,5 +16,11 @@ public class BoardCreateForm {
 
     @Length(max = 255)
     private String description;
+
+    @BoardDimension(message = "{validator.board.width}")
+    private short width;
+
+    @BoardDimension(message = "{validator.board.height}")
+    private short height;
 
 }
