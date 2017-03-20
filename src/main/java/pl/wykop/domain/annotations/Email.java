@@ -17,7 +17,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = EmailValidator.class)
 public @interface Email {
 
-    String message() default "Invalid email format";
+    String message() default "{validator.user.email}";
+
+    String pattern() default "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     Class<?>[] groups() default {};
 

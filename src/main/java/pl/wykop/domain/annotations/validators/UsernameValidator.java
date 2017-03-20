@@ -11,22 +11,18 @@ import java.util.regex.Pattern;
  * Created by mariusz on 19.03.17.
  */
 @Component
-public class UsernameValidator extends AbstractBaseValidator implements ConstraintValidator<Username, String> {
+public class UsernameValidator implements ConstraintValidator<Username, String> {
 
-    private static final String USERNAME_FORMAT = "[a-zA-z0-9_]{4,20}";
+    private String pattern;
 
     @Override
     public void initialize(Username username) {
-
+        pattern = username.pattern();
     }
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
-        if (Pattern.matches(USERNAME_FORMAT, username)) {
-            return true;
-        }
-        constraintValidatorContext.disableDefaultConstraintViolation();
-        constraintValidatorContext.buildConstraintViolationWithTemplate(getMessage("validator.user.username")).addConstraintViolation();
-        return false;
+        return Pattern.matches(pattern, username);
+
     }
 }

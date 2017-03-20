@@ -11,24 +11,18 @@ import java.util.regex.Pattern;
  * Created by mariusz on 19.03.17.
  */
 @Component
-public class EmailValidator extends AbstractBaseValidator implements ConstraintValidator<Email, String> {
+public class EmailValidator implements ConstraintValidator<Email, String> {
 
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private String pattern;
 
     @Override
     public void initialize(Email email) {
-
+        pattern = email.pattern();
     }
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-
-        if (Pattern.matches(EMAIL_PATTERN, email)) {
-            return true;
-        }
-        constraintValidatorContext.disableDefaultConstraintViolation();
-        constraintValidatorContext.buildConstraintViolationWithTemplate(getMessage("validator.user.email")).addConstraintViolation();
-        return false;
+        return Pattern.matches(pattern, email);
     }
 
 }

@@ -17,7 +17,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface Password {
 
-    String message() default "Invalid password format";
+    String message() default "{validator.user.password}";
+
+    String pattern() default "^[a-zA-z0-9_!@#$%^&*()]{7,20}$";
 
     Class<?>[] groups() default {};
 

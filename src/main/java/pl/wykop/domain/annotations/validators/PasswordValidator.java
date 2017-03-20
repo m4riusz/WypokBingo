@@ -10,24 +10,19 @@ import java.util.regex.Pattern;
 /**
  * Created by mariusz on 19.03.17.
  */
-
 @Component
-public class PasswordValidator extends AbstractBaseValidator implements ConstraintValidator<Password, String> {
+public class PasswordValidator implements ConstraintValidator<Password, String> {
 
-    private static final String PASSWORD_PATTERN = "[a-zA-z0-9_!@#$%^&*()]{7,20}";
+    private String pattern;
 
     @Override
     public void initialize(Password password) {
-
+        pattern = password.pattern();
     }
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
-        if (Pattern.matches(PASSWORD_PATTERN, password)) {
-            return true;
-        }
-        constraintValidatorContext.disableDefaultConstraintViolation();
-        constraintValidatorContext.buildConstraintViolationWithTemplate(getMessage("validator.user.password")).addConstraintViolation();
-        return false;
+        return Pattern.matches(pattern, password);
+
     }
 }

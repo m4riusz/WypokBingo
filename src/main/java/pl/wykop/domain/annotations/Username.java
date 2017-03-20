@@ -17,7 +17,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
 
-    String message() default "Invalid username format";
+    String message() default "{validator.user.username}";
+
+    String pattern() default "^[a-zA-z0-9_]{4,20}$";
 
     Class<?>[] groups() default {};
 
