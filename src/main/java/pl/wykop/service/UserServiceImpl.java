@@ -10,6 +10,8 @@ import pl.wykop.dto.UserCreateForm;
 import pl.wykop.exception.UserCreateException;
 import pl.wykop.exception.UserNotFoundException;
 import pl.wykop.repository.UserRepository;
+import pl.wykop.util.ConfigSource;
+import pl.wykop.util.LocaleMessageSource;
 
 import javax.transaction.Transactional;
 import java.awt.print.Pageable;
@@ -21,10 +23,12 @@ import java.util.stream.Stream;
 @Data
 @Service
 @Transactional
-public class UserServiceImpl extends AbstractService implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ConfigSource configSource;
+    private final LocaleMessageSource localeMessageSource;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,9 +38,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     public User create(UserCreateForm userCreateForm) throws UserCreateException {
         if (userRepository.findByUsername(userCreateForm.getUsername()).isPresent()) {
-            throw new UserCreateException(getMessage("user.create.error.username"));
+            throw new UserCreateException(localeMessageSource.getMessage("user.create.error.username"));
         } else if (userRepository.findByEmail(userCreateForm.getEmail()).isPresent()) {
-            throw new UserCreateException(getMessage("user.create.error.email"));
+            throw new UserCreateException(localeMessageSource.getMessage("user.create.error.email"));
         }
         User user = new User();
         user.setUsername(userCreateForm.getUsername());
@@ -47,7 +51,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public User findByUsername(String username) throws UserNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(getMessage("user.find.error.username")));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(localeMessageSource.getMessage("user.find.error.username")));
     }
 
     @Override

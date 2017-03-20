@@ -8,6 +8,8 @@ import pl.wykop.domain.User;
 import pl.wykop.dto.BoardCreateForm;
 import pl.wykop.exception.BoardCreateException;
 import pl.wykop.repository.BoardRepository;
+import pl.wykop.util.ConfigSource;
+import pl.wykop.util.LocaleMessageSource;
 
 import javax.transaction.Transactional;
 
@@ -19,19 +21,21 @@ import static java.util.Collections.emptyList;
 @Data
 @Service
 @Transactional
-public class BoardServiceImpl extends AbstractService implements BoardService {
+public class BoardServiceImpl implements BoardService {
 
     private final UserService userService;
     private final BoardRepository boardRepository;
+    private final ConfigSource configSource;
+    private final LocaleMessageSource localeMessageSource;
 
     @Override
     public Board createBoard(BoardCreateForm boardCreateForm) throws BoardCreateException {
         User currentUser = userService.getCurrentUser();
 
         if (boardWithNameAlreadyExistsForUser(boardCreateForm, currentUser)) {
-            throw new BoardCreateException(getMessage("board.create.error.name"));
+            throw new BoardCreateException(localeMessageSource.getMessage("board.create.error.name"));
         } else if (isMaxBoardCount(currentUser)) {
-            throw new BoardCreateException(getMessage("board.create.error.count"));
+            throw new BoardCreateException(localeMessageSource.getMessage("board.create.error.count"));
         }
         Board board = Board.builder()
                 .name(boardCreateForm.getName())
@@ -44,7 +48,7 @@ public class BoardServiceImpl extends AbstractService implements BoardService {
     }
 
     private boolean isMaxBoardCount(User currentUser) {
-        return currentUser.getBoards().size() > getEnvironment("user.max.board.count", Long.class);
+        return currentUser.getBoards().size() > configSource.getEnv("user.max.board.count", Long.class);
     }
 
     private boolean boardWithNameAlreadyExistsForUser(BoardCreateForm boardCreateForm, User currentUser) {
@@ -53,6 +57,6 @@ public class BoardServiceImpl extends AbstractService implements BoardService {
 
 
     private BingoImage getDefaultImage() {
-        return BingoImage.builder().bytes(new byte[0]).fileName(getEnvironment("image.default.name")).build();
+        return BingoImage.builder().bytes(new byte[0]).fileName(configSource.getEnv("image.default.name")).build();
     }
 }
