@@ -1,27 +1,19 @@
 package pl.wykop.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
 
 /**
  * Created by mariusz on 09.03.17.
  */
-@Data
-@Builder
 @Entity
-public class Cell extends AbstractEntity {
-
-    @ManyToOne
-    private Category category;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Link confirmLink;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cell_id")
-    private Set<Link> requestedLinks;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "field", value = Field.class),
+        @JsonSubTypes.Type(name = "image", value = Image.class)
+})
+public abstract class Cell extends AbstractEntity {
 
 }

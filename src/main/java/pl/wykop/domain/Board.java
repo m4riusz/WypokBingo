@@ -29,15 +29,12 @@ public class Board extends AbstractEntity {
     @Length(max = 255)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bingo_image_id")
-    private BingoImage bingoImage;
-
     @ManyToOne
     private User owner;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "board_id")
+    @OrderColumn(name = "cell_order")
     private List<Cell> cells;
 
 }

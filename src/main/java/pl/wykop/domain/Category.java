@@ -20,6 +20,6 @@ public class Category extends AbstractEntity {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    private List<Cell> cells;
+    private List<Field> cells;
 
 }
