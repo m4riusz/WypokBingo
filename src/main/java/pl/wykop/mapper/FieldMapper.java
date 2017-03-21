@@ -10,7 +10,7 @@ import pl.wykop.dto.CellDto;
  * Created by mariusz on 17.03.17.
  */
 @Mapper(componentModel = "spring", uses = BaseMapper.class)
-public interface FieldMapper {
+public interface CellMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "createDate", target = "createDate")

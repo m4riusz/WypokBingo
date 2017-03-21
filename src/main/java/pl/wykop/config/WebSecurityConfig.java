@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.wykop.service.UserService;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 /**
  * Created by mariusz on 06.03.17.
@@ -39,16 +38,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(POST, Route.AUTH_URL).permitAll()
+                .antMatchers(POST, Route.AUTH_URL, Route.USER).permitAll()
                 .antMatchers(DELETE, Route.AUTH_URL).permitAll()
-                .antMatchers(POST,Route.USER).permitAll()
-                .antMatchers(Route.AUTHENTICATED_PATTERN).authenticated()
+                .antMatchers(GET, Route.BOARD_BY_USERNAME,
+                        Route.BOARD_BY_USERNAME_AND_BOARD_NAME,
+                        Route.USER_BY_USERNAME
+                ).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .csrf().disable()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

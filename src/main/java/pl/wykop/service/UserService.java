@@ -22,10 +22,8 @@ public interface UserService extends UserDetailsService {
     @PreAuthorize("isAnonymous()")
     User create(UserCreateForm userCreateForm) throws UserCreateException;
 
-    @PreAuthorize("isAuthenticated()")
     User findByUsername(String username) throws UserNotFoundException;
 
-    @PreAuthorize("isAuthenticated()")
     Stream<User> findByNameLike(String username, Pageable pageable);
 
     @PreAuthorize("isAuthenticated()")
