@@ -1,6 +1,7 @@
 package pl.wykop.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.wykop.domain.Category;
 
@@ -16,6 +17,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByName(String name);
 
+    @Query("SELECT category FROM Category category")
     Stream<Category> findAll(Pageable pageable);
 
     Stream<Category> findByNameLike(String name, Pageable pageable);
