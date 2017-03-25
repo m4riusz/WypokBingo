@@ -13,7 +13,7 @@ import pl.wykop.exception.BoardNotFoundException;
 import pl.wykop.exception.CategoryNotFoundException;
 import pl.wykop.exception.UserNotFoundException;
 import pl.wykop.repository.BoardRepository;
-import pl.wykop.service.dto.CellFieldCreateForm;
+import pl.wykop.dto.CellFieldCreateForm;
 import pl.wykop.util.ConfigSource;
 import pl.wykop.util.LocaleMessageSource;
 
