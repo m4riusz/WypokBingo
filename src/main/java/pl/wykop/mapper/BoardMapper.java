@@ -8,7 +8,7 @@ import pl.wykop.dto.BoardDto;
 /**
  * Created by mariusz on 17.03.17.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, FieldMapper.class, BaseMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, CellMapper.class, BaseMapper.class})
 public interface BoardMapper {
 
     @Mapping(source = "id", target = "id")

@@ -15,7 +15,6 @@ public class BoardDto {
     private String modifyDate;
     private String name;
     private String description;
-    private BingoImageDto image;
     private UserDto owner;
     private List<CellDto> cells;
 }

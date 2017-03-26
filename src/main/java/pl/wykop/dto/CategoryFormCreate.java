@@ -8,5 +8,6 @@ import lombok.Data;
 @Data
 public class CategoryFormCreate {
 
+    //todo add validator
     private String name;
 }

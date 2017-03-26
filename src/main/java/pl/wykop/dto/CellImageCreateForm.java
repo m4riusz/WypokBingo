@@ -13,6 +13,8 @@ public class CellImageCreateForm {
 
     @CellImageFileName
     private String fileName;
+
+    //todo add validator
     @Lob
     private byte[] bytes;
 }

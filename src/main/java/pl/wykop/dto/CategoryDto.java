@@ -3,12 +3,13 @@ package pl.wykop.dto;
 import lombok.Data;
 
 /**
- * Created by mariusz on 17.03.17.
+ * Created by mariusz on 26.03.17.
  */
 @Data
-public class CellDto {
+public class CategoryDto {
 
     private Long id;
     private String createDate;
+    private String name;
 
 }
