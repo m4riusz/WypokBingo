@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.wykop.config.Route;
 import pl.wykop.dto.BoardCreateForm;
 import pl.wykop.dto.BoardDto;
+import pl.wykop.dto.CellFieldCreateForm;
 import pl.wykop.exception.BoardCreateException;
 import pl.wykop.exception.BoardNotFoundException;
+import pl.wykop.exception.CategoryNotFoundException;
 import pl.wykop.exception.UserNotFoundException;
 import pl.wykop.mapper.BoardMapper;
 import pl.wykop.service.BoardService;
@@ -40,4 +42,12 @@ public class BoardController {
     public BoardDto getBoardFromUserByName(@PathVariable String username, @PathVariable String boardName) throws UserNotFoundException, BoardNotFoundException {
         return boardMapper.boardToBoardDto(boardService.getByUsernameAndName(username, boardName));
     }
+
+    @RequestMapping(value = Route.BOARD_BY_USERNAME_AND_BOARD_NAME, method = RequestMethod.PUT)
+    public BoardDto getBoardFromUserByName(@PathVariable String username, @PathVariable String boardName,
+                                           @Valid @RequestBody CellFieldCreateForm cellFieldCreateForm) throws UserNotFoundException, BoardNotFoundException, CategoryNotFoundException {
+        // todo refactor
+        return boardMapper.boardToBoardDto(boardService.addCell(boardService.getByUsernameAndName(username,boardName).getId(),cellFieldCreateForm));
+    }
+
 }

@@ -1,7 +1,9 @@
 package pl.wykop.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,6 +14,8 @@ import java.util.Set;
 @Data
 @Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Field extends Cell {
 
     @ManyToOne
