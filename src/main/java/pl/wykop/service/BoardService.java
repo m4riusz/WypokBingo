@@ -22,8 +22,10 @@ public interface BoardService {
     @PreAuthorize("isAuthenticated()")
     Board createBoard(BoardCreateForm boardCreateForm) throws BoardCreateException;
 
+    @PreAuthorize("hasPermission(#boardId,'board_add_cell')")
     Board addCell(Long boardId, CellImageCreateForm cellImageCreateForm) throws BoardNotFoundException;
 
+    @PreAuthorize("hasPermission(#boardId,'board_add_cell')")
     Board addCell(Long boardId, CellFieldCreateForm cellFieldCreateForm) throws BoardNotFoundException, CategoryNotFoundException;
 
     Stream<Board> getAllFromUser(String username) throws UserNotFoundException;

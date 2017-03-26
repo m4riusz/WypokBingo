@@ -2,18 +2,15 @@ package pl.wykop.service;
 
 import lombok.Data;
 import org.springframework.stereotype.Service;
-import pl.wykop.domain.Board;
-import pl.wykop.domain.Field;
-import pl.wykop.domain.Image;
-import pl.wykop.domain.User;
+import pl.wykop.domain.*;
 import pl.wykop.dto.BoardCreateForm;
+import pl.wykop.dto.CellFieldCreateForm;
 import pl.wykop.dto.CellImageCreateForm;
 import pl.wykop.exception.BoardCreateException;
 import pl.wykop.exception.BoardNotFoundException;
 import pl.wykop.exception.CategoryNotFoundException;
 import pl.wykop.exception.UserNotFoundException;
 import pl.wykop.repository.BoardRepository;
-import pl.wykop.dto.CellFieldCreateForm;
 import pl.wykop.util.ConfigSource;
 import pl.wykop.util.LocaleMessageSource;
 
@@ -51,7 +48,9 @@ public class BoardServiceImpl implements BoardService {
                 .owner(currentUser)
                 .cells(emptyList())
                 .build();
-        return boardRepository.save(board);
+        Board savedBoard = boardRepository.save(board);
+        addBoardOwnerAuthority(currentUser, savedBoard);
+        return savedBoard;
     }
 
     @Override
@@ -88,6 +87,15 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() ->
                         new BoardNotFoundException(localeMessageSource.getMessage("board.find.error.name"))
                 );
+    }
+
+    private boolean addBoardOwnerAuthority(User currentUser, Board savedBoard) {
+        return currentUser.getAuthorities().add(
+                Authority.builder().
+                        authority("board_owner_" + savedBoard.getId()).
+                        description(localeMessageSource.getMessage("board.owner.authority.description")).
+                        build()
+        );
     }
 
     private boolean isMaxBoardCount(User currentUser) {
