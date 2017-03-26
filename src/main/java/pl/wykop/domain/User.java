@@ -26,7 +26,11 @@ public class User extends AbstractEntity implements UserDetails {
     @Email
     @Column(unique = true)
     private String email;
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id")
+    )
     private List<Authority> authorities = new ArrayList<>();
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;

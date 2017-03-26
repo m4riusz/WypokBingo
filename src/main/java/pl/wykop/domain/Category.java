@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Category extends AbstractEntity {
 
+    //todo add validator
     @Column(unique = true)
     private String name;
 
