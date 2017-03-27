@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
     public Board addCell(Long boardId, CellFieldCreateForm cellFieldCreateForm) throws BoardNotFoundException, CategoryNotFoundException {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(localeMessageSource.getMessage("board.find.error.name")));
         Field cellImage = Field.builder()
-                .category(categoryService.findByName(cellFieldCreateForm.getCategoryName()))
+                .category(Category.builder().name(cellFieldCreateForm.getCategoryName()).build())
                 .build();
         board.getCells().add(cellImage);
         return board;
