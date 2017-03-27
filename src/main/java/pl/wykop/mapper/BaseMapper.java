@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Mapper(componentModel = "spring")
 public interface BaseMapper {
-    String DATE_FORMAT = "HH:MM:SS dd/mm/yyyy";
+    String DATE_FORMAT = "HH:mm:ss dd/MM/yyyy";
 
     default String localDateTimeToString(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
