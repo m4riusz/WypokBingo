@@ -1,6 +1,7 @@
 package pl.wykop.dto;
 
 import lombok.Data;
+import pl.wykop.domain.annotations.CategoryName;
 
 /**
  * Created by mariusz on 24.03.17.
@@ -8,6 +9,6 @@ import lombok.Data;
 @Data
 public class CellFieldCreateForm {
 
-    //todo add validator
+    @CategoryName
     private String categoryName;
 }

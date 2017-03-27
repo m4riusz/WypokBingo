@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.wykop.domain.annotations.CategoryName;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 /**
  * Created by mariusz on 09.03.17.
@@ -20,11 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Category extends AbstractEntity {
 
-    //todo add validator
-    @Column(unique = true)
+    @CategoryName
     private String name;
-
-    @OneToMany(mappedBy = "category")
-    private List<Field> cells;
 
 }

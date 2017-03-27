@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Field extends Cell {
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Category category;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Link confirmLink;
