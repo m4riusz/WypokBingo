@@ -12,14 +12,12 @@ import java.lang.annotation.Target;
 /**
  * Created by mariusz on 06.03.17.
  */
-@Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface Password {
 
     String message() default "{validator.user.password}";
-
-    String pattern() default "^[a-zA-z0-9_!@#$%^&*()]{7,20}$";
 
     Class<?>[] groups() default {};
 

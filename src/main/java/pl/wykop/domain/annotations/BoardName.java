@@ -12,12 +12,10 @@ import java.lang.annotation.Target;
 /**
  * Created by mariusz on 17.03.17.
  */
-@Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = BoardNameValidator.class)
 public @interface BoardName {
-
-    String pattern() default "^[a-zA-z0-9_-]{3,20}$";
 
     String message() default "{validator.board.name}";
 

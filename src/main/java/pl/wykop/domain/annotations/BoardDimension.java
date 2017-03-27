@@ -12,14 +12,10 @@ import java.lang.annotation.Target;
 /**
  * Created by mariusz on 20.03.17.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
+@Target(value = ElementType.FIELD)
 @Constraint(validatedBy = BoardDimensionValidator.class)
 public @interface BoardDimension {
-
-    short min() default 3;
-
-    short max() default 9;
 
     String message() default "{validator.board.name}";
 

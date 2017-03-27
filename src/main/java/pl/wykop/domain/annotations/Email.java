@@ -12,14 +12,12 @@ import java.lang.annotation.Target;
 /**
  * Created by mariusz on 06.03.17.
  */
-@Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
+@Retention(value = RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EmailValidator.class)
 public @interface Email {
 
     String message() default "{validator.user.email}";
-
-    String pattern() default "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     Class<?>[] groups() default {};
 

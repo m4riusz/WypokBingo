@@ -1,7 +1,8 @@
 package pl.wykop.domain.annotations.validators;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.wykop.domain.annotations.CellImageFileName;
 import pl.wykop.util.ConfigSource;
 
@@ -15,9 +16,9 @@ import java.util.regex.Pattern;
  * Created by mariusz on 25.03.17.
  */
 @Data
-@Component
 public class CellImageFileNameValidator implements ConstraintValidator<CellImageFileName, String> {
 
+    private final Logger logger = LoggerFactory.getLogger(CellImageFileNameValidator.class);
     private final ConfigSource configSource;
     private int max;
     private int min;
@@ -30,12 +31,19 @@ public class CellImageFileNameValidator implements ConstraintValidator<CellImage
         max = configSource.getEnv("image.name.length.max", Integer.class);
         allowedExtensions = getAllowedFileExtensions();
         pattern = configSource.getEnv("image.name.pattern");
+        logger.debug("Min: {}, Max: {}, Allowed extensions: {}, pattern: {}", min, max, allowedExtensions.stream().reduce("", (prev, next) -> prev += next), pattern);
+        if (min > max) {
+            logger.error("Invalid config parameters! Min length > Max Length ( {} , {} )", min, max);
+        } else if (min == max) {
+            logger.warn("Min and max length is equal! Allowed only strings with length of {}", min);
+        }
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        int length = value.length();
-        return min <= length && length <= max && Pattern.matches(pattern, value) && endsWithAllowedExtension(value);
+        boolean valid = min <= value.length() && value.length() <= max && Pattern.matches(pattern, value) && endsWithAllowedExtension(value);
+        logger.debug("Value: \"{}\" is {}.", value, valid ? "valid" : "invalid");
+        return valid;
     }
 
     private List<String> getAllowedFileExtensions() {

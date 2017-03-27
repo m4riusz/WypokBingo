@@ -19,8 +19,6 @@ public @interface Username {
 
     String message() default "{validator.user.username}";
 
-    String pattern() default "^[a-zA-z0-9_]{4,20}$";
-
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
